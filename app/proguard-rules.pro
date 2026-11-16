@@ -1,0 +1,3 @@
+-keep class com.workbuddy.iptvplayer.** { *; }
+-dontwarn okhttp3.**
+-dontwarn org.jetbrains.kotlin.**
