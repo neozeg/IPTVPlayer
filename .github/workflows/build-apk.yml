@@ -20,18 +20,28 @@ jobs:
           java-version: '17'
           cache: gradle
 
+      # Note: avoid android-actions/setup-android - its internal `sdkmanager tools`
+      # call fails on current SDK repositories (the legacy `tools` package is gone).
+      # ubuntu-latest already ships cmdline-tools, so install the packages directly.
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install SDK packages
+        shell: bash
         run: |
-          yes | sdkmanager --licenses > /dev/null || true
-          sdkmanager "platforms;android-36" "build-tools;36.0.0" "platform-tools" > /dev/null || true
-          # Newer cmdline-tools ship the `android` CLI; older ones only sdkmanager.
-          if [ ! -f "$ANDROID_HOME/platforms/android-36/android.jar" ]; then
-            "$ANDROID_HOME/cmdline-tools/latest/bin/android" sdk install 'platforms;android-36' 'build-tools;36.0.0' --sdk="$ANDROID_HOME" --no-metrics || true
+          SDK="${ANDROID_HOME:-/usr/local/lib/android/sdk}"
+          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
+          CLI_DIR="$SDK/cmdline-tools/latest/bin"
+          if [ ! -x "$CLI_DIR/sdkmanager" ]; then
+            CLI_DIR="$(dirname "$(find "$SDK/cmdline-tools" -type f -name sdkmanager | sort | tail -1)")"
           fi
-          test -f "$ANDROID_HOME/platforms/android-36/android.jar"
+          echo "Using SDK CLI: $CLI_DIR"
+          yes | "$CLI_DIR/sdkmanager" --sdk_root="$SDK" --licenses > /dev/null 2>&1 || true
+          "$CLI_DIR/sdkmanager" --sdk_root="$SDK" \
+            "platforms;android-36" "build-tools;36.0.0" "platform-tools" > /dev/null 2>&1 \
+            || "$CLI_DIR/android" sdk install 'platforms;android-36' 'build-tools;36.0.0' \
+               --sdk="$SDK" --no-metrics > /dev/null 2>&1 \
+            || true
+          test -f "$SDK/platforms/android-36/android.jar"
+          test -x "$SDK/build-tools/36.0.0/aapt2"
+          echo "Android SDK 36 ready"
 
       - name: Build debug APK
         run: |

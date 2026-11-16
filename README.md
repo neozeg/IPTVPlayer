@@ -4,6 +4,8 @@
 
 工程目录：`IPTVPlayer/`（可直接用 Android Studio 打开）
 
+GitHub 仓库：https://github.com/neozeg/IPTVPlayer ｜ 最新 APK：https://github.com/neozeg/IPTVPlayer/releases/latest
+
 ---
 
 ## 一、最快上手
@@ -62,7 +64,7 @@
 
 ## 三、拿到 APK
 
-> 本次交付已随附编译好的 **`IPTVPlayer-v1.0.0.apk`**（debug 签名，7.2 MB），以及 **`IPTVPlayer-source.zip`**（完整源码工程）。直接把 APK 传到手机安装即可，无需自己编译；安装时手机需允许「未知来源」。已验证：包名 `com.workbuddy.iptvplayer`，minSdk 23（Android 6.0+），targetSdk 36。
+> 已编译好的 **`IPTVPlayer-v1.0.0.apk`**（debug 签名，7.2 MB）可直接从 [GitHub Releases](https://github.com/neozeg/IPTVPlayer/releases/latest) 下载，本地也随附了 **`IPTVPlayer-source.zip`**（完整源码工程）。把 APK 传到手机安装即可，无需自己编译；安装时手机需允许「未知来源」。已验证：包名 `com.workbuddy.iptvplayer`，minSdk 23（Android 6.0+），targetSdk 36。
 
 ### 方式 A：本机编译
 
@@ -79,11 +81,11 @@ Android Studio 用户：File → Open → 选择 `IPTVPlayer` 目录 → 等待 
 
 ### 方式 B：GitHub Actions 云端构建（无需本地环境）
 
-工程已内置 `.github/workflows/build-apk.yml`：
+仓库已内置 `.github/workflows/build-apk.yml`（JDK 17 + Android SDK 36 + Gradle Wrapper 一键出包）：
 
-1. 新建一个 GitHub 仓库，把 **`IPTVPlayer` 目录里的内容**作为仓库根目录提交（注意 `.github/` 必须在根目录，否则 Actions 不会触发）。
-2. 推送后 Actions 自动运行；也可在 Actions 页手动 `Run workflow`。
-3. 构建完成后在该次运行的 **Artifacts** 里下载 `IPTVPlayer-debug-apk`。
+1. 推送到 `main` 后 Actions 自动运行；也可在 [Actions 页](https://github.com/neozeg/IPTVPlayer/actions) 手动 `Run workflow`。
+2. 构建完成后在该次运行的 **Artifacts** 里下载 `IPTVPlayer-debug-apk`。
+3. 想直接装机，去 [Releases](https://github.com/neozeg/IPTVPlayer/releases/latest) 下载已发布的 APK。
 
 ---
 
