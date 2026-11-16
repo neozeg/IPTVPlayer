@@ -1,0 +1,10 @@
+# Keep shell scripts with LF endings so the Linux CI runner can execute ./gradlew
+* text=auto
+gradlew text eol=lf
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.bat text eol=crlf
+*.png binary
+*.jar binary
+*.apk binary
